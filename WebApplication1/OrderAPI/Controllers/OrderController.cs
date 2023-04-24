@@ -19,16 +19,12 @@ namespace OrderAPI.Controllers
            _orderRepon = orderRepon;
         }
         [HttpGet]
-        public async Task<IActionResult> GetById(string PhoneNumber)
+        [Route("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
-            Customer customer = new Customer();
-            using (var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetAsync($"https://localhost:7283/api/Customer/GetBySdt?sdt={PhoneNumber}");
-                customer = await response.Content.ReadAsAsync<Customer>();
-            }
+            var result = _orderRepon.getAll();
 
-            return Ok(customer);
+            return Ok(result);
         }
         [HttpPost]
         //[Authorize]
@@ -37,9 +33,23 @@ namespace OrderAPI.Controllers
             int result = await _orderRepon.Create(createOrder);
             if(result == 1) { return Ok("chưa có người dùng này mong bạn điền đầy đủ thông ti"); };
             if (result == 2) { return Ok("lỗi không thêm được người dùng"); };
-            if (result == 3) { return Ok("thêm thanh công"); };
+            if (result == 3) { return Ok("thêm thành công"); };
             if (result == 4) { return Ok("lỗi không thêm được hoán đơn"); };
+            if (result == 5) { return Ok("lỗi không thêm được hoán đơn chi tiết"); };
             return Ok("chưa biết ai hơn ai đâu");
+        }
+        [HttpPost]
+        [Route("CreateCustomer")]
+        public async Task<IActionResult> CreateCustomer(CreateCustomer createCustomer)
+        {
+            Customer customer = new Customer();
+            using (var httpClient = new HttpClient())
+            {
+                customer = await (await httpClient.PostAsJsonAsync($"https://localhost:7283/api/Customer/Createt", createCustomer))
+               .Content.ReadAsAsync<Customer>();
+            }
+
+            return Ok(customer);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OrderAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderAPI.Models;
 using OrderAPI.repositories.IRepon;
 using OrderAPI.ViewModel.Order;
 using System.Net.Http.Json;
@@ -10,20 +11,35 @@ namespace OrderAPI.repositories.Repon
     {
         private readonly DDBC dDBC;
         private readonly HttpClient httpClient = new HttpClient();
-        public OrderRepon() { }
         public OrderRepon(DDBC dDBC)
         {
             this.dDBC = dDBC;
         }
+        public async Task<Guid> getCustomerIdBySdt(string PhoneNumber)
+        {
+            Customer customer = new Customer();
+            customer = await(await httpClient.GetAsync($"https://localhost:7283/api/Customer/GetBySdt?sdt={PhoneNumber}"))
+                .Content.ReadAsAsync<Customer>();
+            if(customer == null)
+            {
+                return new Guid();
+            }
+            return customer.Id;
+        }
+        public async Task<Guid> getCustomerIdByNewCustomer(CreateCustomer createCustomer)
+        {
+            Customer customer = await (await httpClient.PostAsJsonAsync($"https://localhost:7283/api/Customer/Createt", createCustomer))
+                .Content.ReadAsAsync<Customer>();
+            if(customer == null) {
+                return new Guid();
+            }
+            return customer.Id;
+        }
         public async Task<int> Create(CreateOrder model)
         {
-            Guid customerId;
-            Customer customer = new Customer();
-            customer = await (await httpClient.GetAsync($"https://localhost:7283/api/Customer/GetBySdt?sdt={model.PhoneNumber}"))
-                .Content.ReadAsAsync<Customer>();
-
-            customerId = customer.Id;
-            if (customer == null)
+            Guid customerId = await (getCustomerIdBySdt(model.PhoneNumber));
+            
+            if (customerId == null || customerId == new Guid())
             {
                 if (model.Birthday == new DateTime() || model.Birthday == null || model.Fullname == null || model.Address == null || model.Email == null)
                 {
@@ -38,14 +54,13 @@ namespace OrderAPI.repositories.Repon
                     Birthday = (DateTime)model.Birthday,
                     PhoneNumber = model.PhoneNumber,
                 };
-                var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(createCustomer), Encoding.UTF8, "application/json");
-                Customer index = await (await httpClient.PostAsync($"https://localhost:7283/api/Customer/Createt", content))
-                    .Content.ReadAsAsync<Customer>();
-                if (index != null)
+                
+                
+                customerId = await (getCustomerIdByNewCustomer(createCustomer));
+                if (customerId == null || customerId == new Guid())
                 {
                     return 2;
                 }
-                customerId = index.Id;
             }
             long tota = 0;
             if (model.OrderDetails.Count() > 0 || model.OrderDetails != null)
@@ -68,7 +83,6 @@ namespace OrderAPI.repositories.Repon
             try
             {
                 dDBC.orders.AddAsync(order);
-                dDBC.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -76,7 +90,6 @@ namespace OrderAPI.repositories.Repon
             }
             if (model.OrderDetails.Count() > 0 || model.OrderDetails != null)
             {
-                order = await dDBC.orders.FindAsync(order.Id);
                 List<OrderDetail> orderDetails = new List<OrderDetail>();
                 foreach (OrderDetail_CreateOrder item in model.OrderDetails)
                 {
@@ -90,12 +103,28 @@ namespace OrderAPI.repositories.Repon
                         Quantity = item.Quantity
                     });
                 }
-                dDBC.orderDetails.AddRange(orderDetails);
-                dDBC.SaveChangesAsync();
+                try
+                {
+                    dDBC.orderDetails.AddRange(orderDetails);
+                    dDBC.SaveChangesAsync();
+                }catch (Exception e)
+                {
+                    return 5;
+                }
 
             }
             return 3;
 
+        }
+
+        public async Task<List<Order>> getAll()
+        {
+            var result = await dDBC.orders.ToListAsync();
+            if (result == null)
+            {
+                return null;
+            }
+            return result;
         }
     }
 }
