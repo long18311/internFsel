@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderAPI.Models;
 
@@ -11,9 +12,10 @@ using OrderAPI.Models;
 namespace OrderAPI.Migrations
 {
     [DbContext(typeof(DDBC))]
-    partial class DDBCModelSnapshot : ModelSnapshot
+    [Migration("20230424040859_demo2")]
+    partial class demo2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

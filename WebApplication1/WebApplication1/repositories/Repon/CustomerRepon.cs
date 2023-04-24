@@ -97,7 +97,7 @@ namespace WebApplication1.repositories.Repon
                 Customer customer = new Customer()
                 {
                     Id = Guid.NewGuid(),
-                    Fullname = model.Email,
+                    Fullname = model.Fullname,
                     PhoneNumber = model.PhoneNumber,
                     Birthday = model.Birthday,
                     Email = model.Email,

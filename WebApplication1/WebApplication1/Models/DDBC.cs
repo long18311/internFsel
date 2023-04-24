@@ -6,7 +6,8 @@ namespace WebApplication1.Models
     public class DDBC : DbContext
     {
         public DDBC() { }
-        public DDBC(DbContextOptions options) : base(options) {
+        public DDBC(DbContextOptions options) : base(options) 
+        {
             
         }
 
@@ -18,7 +19,6 @@ namespace WebApplication1.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            ;
         }
         public DbSet<User> users { get; set; }
         public DbSet<Customer> customers { get; set; }
