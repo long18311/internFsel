@@ -22,7 +22,7 @@ namespace OrderAPI.Controllers
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var result = _orderRepon.getAll();
+            var result = await _orderRepon.getAll();
 
             return Ok(result);
         }

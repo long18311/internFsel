@@ -2,9 +2,9 @@
 
 #nullable disable
 
-namespace WebApplication1.Migrations
+namespace OrderAPI.Migrations
 {
-    public partial class demo4 : Migration
+    public partial class demo3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

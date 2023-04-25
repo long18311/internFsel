@@ -14,14 +14,12 @@ namespace OrderAPI.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=LONG\SQLEXPRESS;Initial Catalog=Orderdata;Integrated Security=SSPI; Persist Security Info=True;User ID =long; Password =123456");//Persist Security Info=True;User ID =long; Password =123456
+            optionsBuilder.UseSqlServer(@"Data Source=LONG\SQLEXPRESS;Initial Catalog=OrderData;  Integrated Security = True;TrustServerCertificate=True ");//Persist Security Info=True;User ID =long; Password =123456
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            modelBuilder.ApplyConfiguration(new OrderConfing());
-            modelBuilder.ApplyConfiguration(new OrderDetailConfing());
         }
         public DbSet<Order> orders { get; set; }
         public DbSet<OrderDetail> orderDetails { get; set; }
