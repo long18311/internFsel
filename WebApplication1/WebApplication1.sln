@@ -5,13 +5,6 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{24EC1EE1-4E45-4AC9-8600-FBD1AFED69D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API Gateway", "API Gateway\API Gateway.csproj", "{3F89EBDC-D3F6-4E05-A2DA-1D75FB3ECA55}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{16A0B018-DAFD-45D0-AD5B-0E1F2F84EF7C}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderAPI", "OrderAPI\OrderAPI.csproj", "{85C84039-1615-4779-B715-5F2C90B9275F}"
 EndProject
 Global
@@ -24,10 +17,6 @@ Global
 		{24EC1EE1-4E45-4AC9-8600-FBD1AFED69D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24EC1EE1-4E45-4AC9-8600-FBD1AFED69D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24EC1EE1-4E45-4AC9-8600-FBD1AFED69D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F89EBDC-D3F6-4E05-A2DA-1D75FB3ECA55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F89EBDC-D3F6-4E05-A2DA-1D75FB3ECA55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F89EBDC-D3F6-4E05-A2DA-1D75FB3ECA55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F89EBDC-D3F6-4E05-A2DA-1D75FB3ECA55}.Release|Any CPU.Build.0 = Release|Any CPU
 		{85C84039-1615-4779-B715-5F2C90B9275F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85C84039-1615-4779-B715-5F2C90B9275F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85C84039-1615-4779-B715-5F2C90B9275F}.Release|Any CPU.ActiveCfg = Release|Any CPU

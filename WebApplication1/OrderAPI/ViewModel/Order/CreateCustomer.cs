@@ -6,7 +6,6 @@ namespace OrderAPI.ViewModel.Order
 {
     public class CreateCustomer
     {
-        
         public string Fullname { get; set; }        
         public DateTime Birthday { get; set; }        
         public string PhoneNumber { get; set; }
