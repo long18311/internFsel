@@ -11,6 +11,11 @@ builder.Services.AddSwaggerGen();
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("configuration.json",optional:false,reloadOnChange:true);
 builder.Services.AddOcelot(builder.Configuration);
+//Where registering services
+builder.Services.AddCors(policy => {
+    policy.AddPolicy("OpenCorsPolicy", opt => opt.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 //builder.Services.AddOcelot(new ConfigurationBuilder().AddJsonFile("configuration.json").Build());
 var app = builder.Build();
 
@@ -22,7 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("OpenCorsPolicy");
 app.UseAuthorization();
 await app.UseOcelot();
 

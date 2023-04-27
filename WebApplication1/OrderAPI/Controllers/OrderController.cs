@@ -1,21 +1,26 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
 using OrderAPI.Models;
 using OrderAPI.repositories.IRepon;
-using OrderAPI.repositories.Repon;
+
 using OrderAPI.ViewModel.Order;
+
 
 namespace OrderAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]    
+    [ApiController]
+    //[Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderRepon _orderRepon;
-        public OrderController(IOrderRepon orderRepon)
+        //private readonly ITokenAcquisition _tokenAcquisition;
+        public OrderController(IOrderRepon orderRepon /*,ITokenAcquisition tokenAcquisition*/)
         {
            _orderRepon = orderRepon;
+           //_tokenAcquisition = tokenAcquisition;
         }
         [HttpGet]
         [Route("GetAll")]
@@ -26,9 +31,13 @@ namespace OrderAPI.Controllers
             return Ok(result);
         }
         [HttpGet]
-        [Route("GetlstbyPhoneNumber")]
-        public async Task<IActionResult> Getlst(string? PhoneNumber)
+        [Route("GetlstbyPhoneNumber")]        
+        //[AuthorizeForScopes(Scopes = new[] { "user.read" })]
+        public async Task<IActionResult> Getlst( string? PhoneNumber)
         {
+            //string[] scopes = new string[] { "user.read" };
+            //string accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(scopes);
+            //Console.WriteLine(accessToken);
             List<Order> result = null;
             if (PhoneNumber == null || PhoneNumber == "string") {
                 result = await _orderRepon.getAll();
