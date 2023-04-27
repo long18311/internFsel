@@ -19,7 +19,7 @@ namespace OrderAPI.repositories.Repon
         {
             try
             {
-                var result = await dDBC.orders.FirstAsync(x => x.Id == Id); 
+                var result = await dDBC.orders.FindAsync(Id); 
                 return result;
             } catch (Exception ex)
             {
@@ -28,11 +28,12 @@ namespace OrderAPI.repositories.Repon
         }
         public async Task<Guid> GetCustomerIdBySdt(string PhoneNumber)
         {
+            
             Customer customer = new Customer();
-            using(var httpClient = new HttpClient()) { 
-            customer = await(await httpClient.GetAsync($"https://localhost:7283/api/Customer/GetBySdt?sdt={PhoneNumber}"))
+            
+            customer = await(await httpClient.GetAsync($"https://localhost:7186/gateway/Customer/GetBySdt?sdt={PhoneNumber}"))
                 .Content.ReadAsAsync<Customer>();
-            }
+            
             if (customer == null)
             {
                 return new Guid();
@@ -42,12 +43,10 @@ namespace OrderAPI.repositories.Repon
         
         public async Task<Guid> GetCustomerIdByNewCustomer(CreateCustomer createCustomer)
         {
-            Customer customer = new Customer();
-            using (var httpClient = new HttpClient())
-            {
-                 customer = await (await httpClient.PostAsJsonAsync($"https://localhost:7283/api/Customer/Createt", createCustomer))
-                    .Content.ReadAsAsync<Customer>();
-            }
+            Customer customer = new Customer();  
+            
+            customer = await (await httpClient.PostAsJsonAsync($"https://localhost:7186/gateway/Customer/Createt", createCustomer))
+            .Content.ReadAsAsync<Customer>();
             if(customer == null) {
                 return new Guid();
             }
@@ -55,11 +54,12 @@ namespace OrderAPI.repositories.Repon
         }
         public async Task<int> Create(CreateOrder model)
         {
+
             Guid customerId = await (GetCustomerIdBySdt(model.PhoneNumber));
             
             if (customerId == null || customerId == new Guid())
             {
-                if (model.Birthday == new DateTime() || model.Birthday == null || model.Fullname == null || model.Address == null || model.Email == null)
+                if (model.Birthday == new DateTime() || model.Birthday == null || model.Fullname == null || model.Address == null || model.Email == null || model.Fullname == "string" || model.Address == "string" || model.Email == "string")
                 {
                     return 1;
                 }
@@ -134,15 +134,24 @@ namespace OrderAPI.repositories.Repon
             return 3;
 
         }
-        public async Task<List<OrderDetail>> GetOrderHaveDetailbyId(Guid Id)
+        public async Task<List<OrderDetail>> GetOrderDetailbyId(Guid Id)
         {
             var lstOrderDetail = await dDBC.orderDetails.Where(x => x.OrderId == Id).ToListAsync();
-            
+            foreach (var orderDetail in lstOrderDetail)
+            {
+                orderDetail.Order = null;
+            }
+
             return lstOrderDetail;
         }
+
         public async Task<List<Order>> getAll()
         {
-            var result = await dDBC.orders.Include(x => x.OrderDetails).ToListAsync();
+            var result = await dDBC.orders.ToListAsync();//.Include(x => x.OrderDetails)
+            foreach (var order in result)
+            {
+                order.OrderDetails = await GetOrderDetailbyId(order.Id);
+            }
             if (result == null)
             {
                 return null;
@@ -150,6 +159,73 @@ namespace OrderAPI.repositories.Repon
             
 
             return result;
+        }
+
+        public async Task<int> Update(UpdateOrder model)
+        {
+            if (model == null)
+            {
+                return 1;
+            }
+            Guid customerid = await GetCustomerIdBySdt(model.PhoneNumber);
+            if (customerid == null || customerid == new Guid())
+            {
+                return 2;
+            }
+            var order = await dDBC.orders.FindAsync(model.Id);
+            if (order == null)
+            {
+                return 3;
+            }
+            order.CustomerId = customerid;
+            order.OrderDate = model.OrderDate;
+            try {
+                dDBC.orders.UpdateRange(order);
+                dDBC.SaveChangesAsync();
+                return 4;
+            
+            }catch (Exception e) { return 5; }
+           return 5;
+            
+        }
+
+        public async Task<int> Delete(Guid id)
+        {
+            Order order = await dDBC.orders.FindAsync(id);
+            if (order == null)
+            {
+                return 1;
+            }
+            try {
+                List<OrderDetail> orderDetails = await GetOrderDetailbyId(order.Id);
+                dDBC.orderDetails.RemoveRange(orderDetails);
+                dDBC.orders.Remove(order);
+                dDBC.SaveChangesAsync();
+                return 2;
+            }catch (Exception e) { return 3 ; }
+        }
+        
+        public async Task<List<Order>> getlst(string phoneNumber)
+        {
+            Guid customerid = await GetCustomerIdBySdt(phoneNumber);
+            if(customerid == null || customerid == new Guid())
+            {
+                return null;
+            }
+            var lstOrder = await dDBC.orders.Where(x => x.CustomerId == customerid).ToListAsync();
+            foreach (var order in lstOrder)
+            {
+                order.OrderDetails = await GetOrderDetailbyId(order.Id);
+            }
+            return lstOrder;
+        }
+
+        public async Task<Order> GetOrderById(Guid id)
+        {
+            var order = await dDBC.orders.FindAsync(id);
+            List<OrderDetail> orderDetails = await GetOrderDetailbyId(order.Id);
+            order.OrderDetails = orderDetails;
+            return order;
         }
     }
 }
