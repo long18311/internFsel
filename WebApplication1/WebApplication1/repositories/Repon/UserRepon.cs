@@ -27,7 +27,7 @@ namespace WebApplication1.repositories.Repon
             };
             var authenkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"));
             var token = new JwtSecurityToken(
-            issuer: "https://localhost:5001",
+            issuer: "https://localhost:7283",
             audience: "InternFsel",
             expires: DateTime.Now.AddMinutes(30),
             claims: authClaims,

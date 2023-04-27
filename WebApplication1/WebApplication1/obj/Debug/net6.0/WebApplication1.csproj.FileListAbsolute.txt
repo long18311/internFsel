@@ -273,3 +273,5 @@ C:\vuithoi\C#\WebApplication1\WebApplication1\bin\Debug\net6.0\Microsoft.AspNetC
 C:\vuithoi\C#\WebApplication1\WebApplication1\bin\Debug\net6.0\xunit.abstractions.dll
 C:\vuithoi\C#\WebApplication1\WebApplication1\bin\Debug\net6.0\xunit.core.dll
 C:\vuithoi\C#\WebApplication1\WebApplication1\bin\Debug\net6.0\xunit.execution.dotnet.dll
+C:\vuithoi\C#\WebApplication1\WebApplication1\bin\Debug\net6.0\Refit.dll
+C:\vuithoi\C#\WebApplication1\WebApplication1\bin\Debug\net6.0\Refit.HttpClientFactory.dll

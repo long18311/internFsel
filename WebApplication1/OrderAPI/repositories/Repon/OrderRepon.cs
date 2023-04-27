@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderAPI.Models;
 using OrderAPI.repositories.IRepon;
+using OrderAPI.Service;
 using OrderAPI.ViewModel.Order;
 using System.Net.Http.Json;
 using System.Text;
@@ -11,9 +12,11 @@ namespace OrderAPI.repositories.Repon
     {
         private readonly DDBC dDBC;
         private readonly HttpClient httpClient = new HttpClient();
-        public OrderRepon(DDBC dDBC)
+        private readonly IApiCustomerService customerService;
+        public OrderRepon(DDBC dDBC, IApiCustomerService customerService)
         {
             this.dDBC = dDBC;
+            this.customerService = customerService;
         }
         public async Task<Order> GetOrderByID(Guid Id)
         {
@@ -28,11 +31,11 @@ namespace OrderAPI.repositories.Repon
         }
         public async Task<Guid> GetCustomerIdBySdt(string PhoneNumber)
         {
+
+            Customer customer = await customerService.GetBySdt(PhoneNumber);
             
-            Customer customer = new Customer();
-            
-            customer = await(await httpClient.GetAsync($"https://localhost:7186/gateway/Customer/GetBySdt?sdt={PhoneNumber}"))
-                .Content.ReadAsAsync<Customer>();
+            //customer = await(await httpClient.GetAsync($"https://localhost:7186/gateway/Customer/GetBySdt?sdt={PhoneNumber}"))
+            //    .Content.ReadAsAsync<Customer>();
             
             if (customer == null)
             {
@@ -43,11 +46,11 @@ namespace OrderAPI.repositories.Repon
         
         public async Task<Guid> GetCustomerIdByNewCustomer(CreateCustomer createCustomer)
         {
-            Customer customer = new Customer();  
-            
-            customer = await (await httpClient.PostAsJsonAsync($"https://localhost:7186/gateway/Customer/Createt", createCustomer))
-            .Content.ReadAsAsync<Customer>();
-            if(customer == null) {
+            Customer customer = await customerService.Createt(createCustomer);
+
+            //customer = await (await httpClient.PostAsJsonAsync($"https://localhost:7186/gateway/Customer/Createt", createCustomer))
+            //  .Content.ReadAsAsync<Customer>();
+            if (customer == null) {
                 return new Guid();
             }
             return customer.Id;

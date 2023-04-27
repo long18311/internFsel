@@ -26,10 +26,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidAudience = "InternFsel",
-        ValidIssuer = "https://localhost:5001",
+        ValidIssuer = "https://localhost:7283",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"))
 };
     });
+//Where registering services
+builder.Services.AddCors(policy => {
+    policy.AddPolicy("OpenCorsPolicy", opt => opt.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
+//app configurations
+
 builder.Services.AddTransient<IUserRepon, UserRepon>();
 builder.Services.AddTransient<ICustomerRepon, CustomerRepon>();
 
@@ -41,7 +48,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("OpenCorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
