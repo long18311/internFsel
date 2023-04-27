@@ -6,8 +6,6 @@ namespace OrderAPI.ViewModel.OrderDetail
     {
         [Required(ErrorMessage = "không được bỏ trống Id Hóa đơn Chi tiết")]
         public Guid Id { get; set; }
-        [Required(ErrorMessage = "Không được bỏ trống Id hóa đơn")]
-        public Guid OrderId { get; set; }
         [Required(ErrorMessage = "Không được bỏ trống Tên sản phẩm")]
         public string ProductName { get; set; }
         [Required(ErrorMessage = "Không được bỏ trống đơn giá")]

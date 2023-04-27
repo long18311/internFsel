@@ -80,7 +80,7 @@ namespace WebApplication1.repositories.Repon
                 return 4;
             }
         }
-        async Task<Customer> ICustomerRepon.Createt(CreateCustomer model)
+        public async Task<Customer> Createt(CreateCustomer model)
         {
             try
             {
@@ -103,8 +103,15 @@ namespace WebApplication1.repositories.Repon
                     Email = model.Email,
                     Address = model.Address
                 };
-                dDBC.customers.AddRange(customer);
-                dDBC.SaveChangesAsync();
+                try
+                {
+                    dDBC.customers.AddRange(customer);
+                    dDBC.SaveChangesAsync();
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    return null;
+                }
                 return customer;
             }
             catch (Exception ex)

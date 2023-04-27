@@ -5,7 +5,8 @@ namespace OrderAPI.ViewModel.Order
 {
     public class CreateOrder
     {
-        [Required(ErrorMessage = "Không được bỏ trống số đien thoai")]
+        [Required(ErrorMessage = "Không được bỏ trống số điện thoai")]
+        [RegularExpression(@"^0\d{9}$", ErrorMessage = "Hãy nhập đúng định dạng Số điện thoại")]
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Không được bỏ trống ngày nhận")]
         public DateTime OrderDate { get; set; }
