@@ -56,7 +56,7 @@ namespace WebApplication1.Controllers
         }
         [HttpGet]
         [Route("GetById")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _customerRepon.GetById(id);
@@ -65,6 +65,7 @@ namespace WebApplication1.Controllers
         }
         [HttpGet]
         [Route("GetBySdt")]
+        [Authorize]
         public async Task<IActionResult> GetBySdt(string sdt)
         {
             var result = await _customerRepon.GetBySdt(sdt);

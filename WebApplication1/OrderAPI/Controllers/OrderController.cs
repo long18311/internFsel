@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
 using OrderAPI.Models;
 using OrderAPI.repositories.IRepon;
-
+using OrderAPI.Service;
 using OrderAPI.ViewModel.Order;
 
 
@@ -12,15 +12,16 @@ namespace OrderAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderRepon _orderRepon;
-        //private readonly ITokenAcquisition _tokenAcquisition;
-        public OrderController(IOrderRepon orderRepon /*,ITokenAcquisition tokenAcquisition*/)
+        
+        private readonly IApiCustomerService _apiCustomerService;
+        public OrderController(IOrderRepon orderRepon ,IApiCustomerService apiCustomerService)
         {
            _orderRepon = orderRepon;
-           //_tokenAcquisition = tokenAcquisition;
+            _apiCustomerService = apiCustomerService;
         }
         [HttpGet]
         [Route("GetAll")]
@@ -32,22 +33,24 @@ namespace OrderAPI.Controllers
         }
         [HttpGet]
         [Route("GetlstbyPhoneNumber")]        
-        //[AuthorizeForScopes(Scopes = new[] { "user.read" })]
+        
         public async Task<IActionResult> Getlst( string? PhoneNumber)
         {
-            //string[] scopes = new string[] { "user.read" };
-            //string accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(scopes);
-            //Console.WriteLine(accessToken);
+            
+            string token = HttpContext.Request.Cookies["access_token"] ?? HttpContext.Request.Headers["Authorization"];
+            token = token.Substring(7, token.Length - 7);
+           
             List<Order> result = null;
             if (PhoneNumber == null || PhoneNumber == "string") {
                 result = await _orderRepon.getAll();
                 return Ok(result);
             } else
             {
-                result = await _orderRepon.getlst(PhoneNumber);
+                result = await _orderRepon.getlst(PhoneNumber, token);
             }
             return Ok(result);
         }
+        
         [HttpGet]
         [Route("GetbyId")]
         public async Task<IActionResult> GetbyId(Guid id) {
@@ -58,8 +61,9 @@ namespace OrderAPI.Controllers
         //[Authorize]
         public async Task<IActionResult> Create([FromBody] CreateOrder createOrder)
         {
-           
-            int result = await _orderRepon.Create(createOrder);
+            string token = HttpContext.Request.Cookies["access_token"] ?? HttpContext.Request.Headers["Authorization"];
+            token = token.Substring(7, token.Length - 7);
+            int result = await _orderRepon.Create(createOrder, token);
             if(result == 1) { return Ok("chưa có người dùng này mong bạn điền đầy đủ thông tin"); };
             if (result == 2) { return Ok("lỗi không thêm được người dùng"); };
             if (result == 3) { return Ok("thêm thành công"); };
@@ -71,7 +75,9 @@ namespace OrderAPI.Controllers
         //[Authorize]
         public async Task<IActionResult> Update([FromBody] UpdateOrder updateOrder)
         {
-            int result = await _orderRepon.Update(updateOrder);
+            string token = HttpContext.Request.Cookies["access_token"] ?? HttpContext.Request.Headers["Authorization"];
+            token = token.Substring(7, token.Length - 7);
+            int result = await _orderRepon.Update(updateOrder, token);
             if(result == 1) { return Ok("Vui lòn điền đủ thông tin"); }
             if (result == 2) { return Ok("không tìm thấy người mua này vui lòng điền lại số điện thoại người mua"); }
             if (result == 3) { return Ok("Không tìm thấy order này"); }
