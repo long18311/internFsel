@@ -19,25 +19,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DDBC>(options => { options.UseSqlServer(@"Data Source=LONG\SQLEXPRESS;Initial Catalog=OrderData; Integrated Security = True;TrustServerCertificate=True "); });
-//builder.Services.AddControllers().AddJsonOptions(options => {
-//    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-//});
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
-//    options.RequireHttpsMetadata = false;
-//    options.SaveToken = true;
-//    options.TokenValidationParameters = new TokenValidationParameters()
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidAudience = "InternFsel",
-//        ValidIssuer = "https://localhost:7283",
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"))
-//    };
-//});
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//.AddMicrosoftIdentityWebApi(builder.Configuration, "AzureAd")
-//    .EnableTokenAcquisitionToCallDownstreamApi()
-//    .AddInMemoryTokenCaches();
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = "InternFsel",
+        ValidIssuer = "https://localhost:7283",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"))
+    };
+});
 builder.Services.AddTransient<IOrderRepon, OrderRepon>();
 builder.Services.AddTransient<IOrderDetailRepon, OrderDetailRepon>();
 builder.Services.AddRefitClient<IApiCustomerService>().ConfigureHttpClient(x =>

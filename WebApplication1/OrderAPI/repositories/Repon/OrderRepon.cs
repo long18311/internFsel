@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using OrderAPI.Models;
 using OrderAPI.repositories.IRepon;
 using OrderAPI.Service;
@@ -29,10 +30,15 @@ namespace OrderAPI.repositories.Repon
                 return null;
             }
         }
-        public async Task<Guid> GetCustomerIdBySdt(string PhoneNumber)
+        public async Task<Guid> GetCustomerIdBySdt(string PhoneNumber, string token)
         {
-
-            Customer customer = await customerService.GetBySdt(PhoneNumber);
+            Customer customer;
+            try {
+               customer = await customerService.GetBySdt(token, PhoneNumber);
+            }catch (Exception ex) {
+                return new Guid();
+            }
+           
             
             //customer = await(await httpClient.GetAsync($"https://localhost:7186/gateway/Customer/GetBySdt?sdt={PhoneNumber}"))
             //    .Content.ReadAsAsync<Customer>();
@@ -44,9 +50,9 @@ namespace OrderAPI.repositories.Repon
             return customer.Id;
         }
         
-        public async Task<Guid> GetCustomerIdByNewCustomer(CreateCustomer createCustomer)
+        public async Task<Guid> GetCustomerIdByNewCustomer(CreateCustomer createCustomer, string token)
         {
-            Customer customer = await customerService.Createt(createCustomer);
+            Customer customer = await customerService.Createt(token, createCustomer);
 
             //customer = await (await httpClient.PostAsJsonAsync($"https://localhost:7186/gateway/Customer/Createt", createCustomer))
             //  .Content.ReadAsAsync<Customer>();
@@ -55,10 +61,10 @@ namespace OrderAPI.repositories.Repon
             }
             return customer.Id;
         }
-        public async Task<int> Create(CreateOrder model)
+        public async Task<int> Create(CreateOrder model,string token)
         {
 
-            Guid customerId = await (GetCustomerIdBySdt(model.PhoneNumber));
+            Guid customerId = await (GetCustomerIdBySdt(model.PhoneNumber, token));
             
             if (customerId == null || customerId == new Guid())
             {
@@ -77,7 +83,7 @@ namespace OrderAPI.repositories.Repon
                 };
                 
                 
-                customerId = await (GetCustomerIdByNewCustomer(createCustomer));
+                customerId = await (GetCustomerIdByNewCustomer(createCustomer, token));
                 if (customerId == null || customerId == new Guid())
                 {
                     return 2;
@@ -164,13 +170,13 @@ namespace OrderAPI.repositories.Repon
             return result;
         }
 
-        public async Task<int> Update(UpdateOrder model)
+        public async Task<int> Update(UpdateOrder model, string token)
         {
             if (model == null)
             {
                 return 1;
             }
-            Guid customerid = await GetCustomerIdBySdt(model.PhoneNumber);
+            Guid customerid = await GetCustomerIdBySdt(model.PhoneNumber, token);
             if (customerid == null || customerid == new Guid())
             {
                 return 2;
@@ -208,9 +214,9 @@ namespace OrderAPI.repositories.Repon
             }catch (Exception e) { return 3 ; }
         }
         
-        public async Task<List<Order>> getlst(string phoneNumber)
+        public async Task<List<Order>> getlst(string phoneNumber,string token)
         {
-            Guid customerid = await GetCustomerIdBySdt(phoneNumber);
+            Guid customerid = await GetCustomerIdBySdt(phoneNumber,token);
             if(customerid == null || customerid == new Guid())
             {
                 return null;

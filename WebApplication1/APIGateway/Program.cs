@@ -15,7 +15,7 @@ builder.Services.AddOcelot(builder.Configuration);
 builder.Services.AddCors(policy => {
     policy.AddPolicy("OpenCorsPolicy", opt => opt.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
-
+ 
 //builder.Services.AddOcelot(new ConfigurationBuilder().AddJsonFile("configuration.json").Build());
 var app = builder.Build();
 
