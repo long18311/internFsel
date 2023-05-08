@@ -1,16 +1,18 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OrderAPI.Models;
 using OrderAPI.repositories.IRepon;
 using OrderAPI.repositories.Repon;
 using OrderAPI.Service;
+using OrderAPI.ViewModel.JWT_Token;
 using Refit;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 
@@ -34,14 +36,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"))
     };
 });
+builder.Services.AddApiVersioning(config =>
+{
+    config.DefaultApiVersion = new ApiVersion(1, 0);
+    config.AssumeDefaultVersionWhenUnspecified = true;
+    config.ReportApiVersions = true;
+});
+
 builder.Services.AddTransient<IOrderRepon, OrderRepon>();
 builder.Services.AddTransient<IOrderDetailRepon, OrderDetailRepon>();
-builder.Services.AddRefitClient<IApiCustomerService>().ConfigureHttpClient(x =>
-{
-    x.BaseAddress = new Uri("https://localhost:7186/gateway");
-});
-var app = builder.Build();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<AuthorizationMessageHandler>();
+builder.Services.AddRefitClient<IApiCustomerService>()
+    .ConfigureHttpClient(x => x.BaseAddress = new Uri("https://localhost:7186/gateway")).AddHttpMessageHandler<AuthorizationMessageHandler>();
 
+//builder.Services.AddRefitClient<IApiCustomerService>().ConfigureHttpClient(x => x.BaseAddress = new Uri("https://localhost:7186/gateway")).AddHttpMessageHandler<AuthorizationMessageHandler>();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
