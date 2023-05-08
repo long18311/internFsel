@@ -68,6 +68,8 @@ namespace WebApplication1.Controllers
         [Authorize]
         public async Task<IActionResult> GetBySdt(string sdt)
         {
+            //string token = HttpContext.Request.Cookies["access_token"] ?? HttpContext.Request.Headers["Authorization"];
+            //Console.WriteLine(token);
             var result = await _customerRepon.GetBySdt(sdt);
             if (result == null) { return Ok(null); }
             return Ok(result);
