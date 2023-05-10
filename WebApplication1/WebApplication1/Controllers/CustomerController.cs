@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Commands;
+using WebApplication1.Queries;
 using WebApplication1.repositories.IRepon;
 using WebApplication1.repositories.Repon;
 using WebApplication1.ViewModel.Customer;
+using static WebApplication1.Commands.CustomerCommand;
+using static WebApplication1.Queries.CustomerQuerie;
 
 namespace WebApplication1.Controllers
 {
@@ -12,16 +17,18 @@ namespace WebApplication1.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerRepon _customerRepon;
-        public CustomerController(ICustomerRepon customerRepon)
+        private readonly IMediator _mediator;
+        public CustomerController(ICustomerRepon customerRepon, IMediator mediator)
         {
             _customerRepon = customerRepon;
+            _mediator = mediator;
         }
         [HttpGet]
         [Route("GetAll")]
         [Authorize]
         public async Task<IActionResult> Get(int page, int pagesize, [FromQuery] FilterCustomer filterCustomer)
         {
-            var lstCustomer = await _customerRepon.GetList(filterCustomer);
+            var lstCustomer = await _mediator.Send(new GetCustomerListQuery(filterCustomer));
             Console.WriteLine(page);
             if (page == null || page == 0)
             {
@@ -79,7 +86,8 @@ namespace WebApplication1.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateCustomer model)
         {
-            var result = await _customerRepon.Create( model);
+            var result = await _mediator.Send(new CreateCustomerCommand(model));
+            //var result = await _customerRepon.Create( model);
             if (result == 1) { return BadRequest("Email đã được sử dụng"); };
             if (result == 2) { return BadRequest("Số điện thoại này đã được sử dụng"); };
             if (result == 4)
@@ -93,8 +101,8 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Createt([FromBody] CreateCustomer model)
         {
             
-            var result = await _customerRepon.Createt(model);
-            
+            var result = await _mediator.Send(new CreatetCustomerCommand(model));
+
             return Ok(result);
         }
 

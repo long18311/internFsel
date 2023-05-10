@@ -39,7 +39,7 @@ namespace OrderAPI.Controllers
 
 
 
-            List<Order> result = null;
+            List<Order> result;
             if (PhoneNumber == null || PhoneNumber == "string") {
                 result = await _orderRepon.getAll();
                 return Ok(result);
@@ -53,7 +53,7 @@ namespace OrderAPI.Controllers
         [HttpGet]
         [Route("GetbyId")]
         public async Task<IActionResult> GetbyId(Guid id) {
-            var result = _orderRepon.GetOrderById(id);
+            var result = await _orderRepon.GetOrderById(id);
             return Ok(result);
         }
         [HttpPost]

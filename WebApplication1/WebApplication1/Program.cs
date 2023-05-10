@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -39,7 +40,7 @@ builder.Services.AddCors(policy => {
 
 builder.Services.AddTransient<IUserRepon, UserRepon>();
 builder.Services.AddTransient<ICustomerRepon, CustomerRepon>();
-
+builder.Services.AddMediatR(typeof(CustomerRepon).Assembly);
 var app = builder.Build();
                 
 // Configure the HTTP request pipeline.
