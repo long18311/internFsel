@@ -16,25 +16,13 @@ namespace WebApplication1.repositories.Repon
 
 
 
-        public async Task<List<Customer>> GetList(FilterCustomer filterCustomer)
+        public async Task<List<Customer>> GetList()
         {
             var result = await dDBC.customers.ToListAsync();
-            if(filterCustomer.Fullname != null)
-            {
-                result = result .Where(p => p.Fullname.Contains(filterCustomer.Fullname)).ToList();
-            }
-            if(filterCustomer.Birthday != null && filterCustomer.Birthday != new DateTime())
-            {
-                Console.WriteLine(filterCustomer.Birthday);
-                result = result.Where(p => p.Birthday == filterCustomer.Birthday).ToList();
-            }
-            if (filterCustomer.PhoneNumber != null)
-            {
-                result = result.Where(p => p.PhoneNumber.Contains(filterCustomer.PhoneNumber)).ToList();
-            }
+            
             return result;
         }
-        private async Task<bool> CheckEmail(string email)
+        public async Task<bool> CheckEmail(string email)
         {
             var result = await dDBC.customers.Where(p => p.Email == email).ToListAsync();
             if (result.Count() > 0)
@@ -43,44 +31,22 @@ namespace WebApplication1.repositories.Repon
             }
             return true;
         }
-        private async Task<bool> CheckPhoneNumber(string phone)
+        public async Task<bool> CheckPhoneNumber(string phone)
         {
             var reslut = await dDBC.customers.Where(p => p.PhoneNumber == phone).ToListAsync();
             if (reslut.Count() > 0) { return false; }
             return true;
         }
-        public async Task<int> Create(CreateCustomer model)
+        public async Task<int> Create(Customer customer)
         {
             try
             {
-                var checkemail = await (CheckEmail(model.Email));
-                if (checkemail == false)
-                {
-                    return 1;
-                }
-                var checkphone = await (CheckPhoneNumber(model.PhoneNumber));
-                if (checkphone == false)
-                {
-                    return 2;
-                }
-                Customer customer = new Customer()
-                {
-                    Id = Guid.NewGuid(),
-                    Fullname = model.Fullname,
-                    PhoneNumber = model.PhoneNumber,
-                    Birthday = model.Birthday,
-                    Email = model.Email,
-                    Address = model.Address
-                };
                 dDBC.customers.AddRange(customer);
                 dDBC.SaveChangesAsync();
-                return 3;
-            } catch (Exception ex)
-            {
-                return 4;
-            }
+                return 1;
+            } catch (Exception ex) { return 0; }
         }
-        public async Task<Customer> Createt(CreateCustomer model)
+        /*public async Task<Customer> Createt(CreateCustomer model)
         {
             try
             {
@@ -118,8 +84,8 @@ namespace WebApplication1.repositories.Repon
             {
                 return null;
             }
-        }
-        private async Task<bool> CheckEmail(Guid id, string email)
+        }*/
+        public async Task<bool> CheckEmail(Guid id, string email)
         {
             var result = await dDBC.customers.Where(p => p.Id != id).ToListAsync();
             result = result.Where(p => p.Email == email).ToList();
@@ -129,56 +95,36 @@ namespace WebApplication1.repositories.Repon
             }
             return true;
         }
-        private async Task<bool> CheckPhoneNumber(Guid id, string phone)
+        public async Task<bool> CheckPhoneNumber(Guid id, string phone)
         {
             var reslut = await dDBC.customers.Where(p => p.Id != id).ToListAsync();
             reslut = reslut.Where(p => p.PhoneNumber == phone).ToList();
             if (reslut.Count() > 0) { return false; }
             return true;
         }
-        public async Task<int> Update(Guid Id, UpdateCustomer model)
+        public async Task<int> Update(Customer customer)
         {
-            try
-            {
-                var checkemail = await (CheckEmail(Id, model.Email));
-                if (checkemail == false)
-                {
-                    return 1;
-                }
-                var checkphone = await (CheckPhoneNumber(Id, model.Email));
-                if (checkphone == false)
-                {
-                    return 2;
-                }
-                var customer = await dDBC.customers.FindAsync(Id);
-
-                customer.Fullname = model.Email;
-                customer.PhoneNumber = model.PhoneNumber;
-                customer.Birthday = model.Birthday;
-                customer.Email = model.Email;
-                customer.Address = model.Address;
+            try { 
                 dDBC.customers.Update(customer);
-                dDBC.SaveChangesAsync();
-                return 3;
+                await dDBC.SaveChangesAsync();
+                return 1;
             } catch (Exception ex)
             {
-                return 4;
+                return 0;
             }
         }
         
 
-        public async Task<int> Delete(Guid Id)
+        public async Task<int> Delete(Customer customer)
         {
             try
-            {
-                var customer = await dDBC.customers.FindAsync(Id);
-                if (customer == null) return 1;
+            {                
                 dDBC.customers.Remove(customer);
                 await dDBC.SaveChangesAsync();
-                return 2;
+                return 1;
             } catch(Exception ex)
             {
-                return 3;
+                return 0;
             }
         }
 
@@ -191,9 +137,8 @@ namespace WebApplication1.repositories.Repon
 
         public async Task<Customer> GetBySdt(string sdt)
         {
-            var customers = await dDBC.customers.Where(x => x.PhoneNumber == sdt).ToListAsync();
-            if (customers.Count() == 0) return null;
-            Customer customer = customers[0];
+            //var customers = await dDBC.customers.Where(x => x.PhoneNumber == sdt).ToListAsync();
+            Customer customer = await dDBC.customers.FirstOrDefaultAsync(x => x.PhoneNumber == sdt);
             return customer;
         }
 

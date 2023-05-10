@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OrderAPI.Models;
 using OrderAPI.repositories.IRepon;
@@ -36,12 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"))
     };
 });
-builder.Services.AddApiVersioning(config =>
-{
-    config.DefaultApiVersion = new ApiVersion(1, 0);
-    config.AssumeDefaultVersionWhenUnspecified = true;
-    config.ReportApiVersions = true;
-});
+
 
 builder.Services.AddTransient<IOrderRepon, OrderRepon>();
 builder.Services.AddTransient<IOrderDetailRepon, OrderDetailRepon>();

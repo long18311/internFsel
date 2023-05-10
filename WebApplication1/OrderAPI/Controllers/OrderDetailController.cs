@@ -8,6 +8,7 @@ namespace OrderAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderDetailController : ControllerBase
     {
         private readonly IOrderDetailRepon _orderDetailRepon;
@@ -26,7 +27,7 @@ namespace OrderAPI.Controllers
         }
         [HttpGet]
         [Route("getlst")]
-        //[Authorize]
+        //
         public async Task<IActionResult> GetLstByOrderId(Guid orderId)
         {
             if (orderId == null|| orderId == new Guid())
