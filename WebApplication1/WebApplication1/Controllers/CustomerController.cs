@@ -8,7 +8,7 @@ using WebApplication1.repositories.IRepon;
 using WebApplication1.repositories.Repon;
 using WebApplication1.ViewModel.Customer;
 using static WebApplication1.Commands.CustomerCommand;
-using static WebApplication1.Queries.CustomerQuerie;
+using static WebApplication1.Queries.CustomerQuery;
 
 namespace WebApplication1.Controllers
 {
@@ -16,11 +16,10 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerRepon _customerRepon;
+        
         private readonly IMediator _mediator;
-        public CustomerController(ICustomerRepon customerRepon, IMediator mediator)
+        public CustomerController( IMediator mediator)
         {
-            _customerRepon = customerRepon;
             _mediator = mediator;
         }
         [HttpGet]
@@ -66,7 +65,7 @@ namespace WebApplication1.Controllers
         [Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var result = await _customerRepon.GetById(id);
+            var result = await _mediator.Send(new GetCustomerbyIdQuery(id));
             if (result == null) { return NotFound(); }
             return Ok(result);
         }
@@ -77,7 +76,7 @@ namespace WebApplication1.Controllers
         {
             //string token = HttpContext.Request.Cookies["access_token"] ?? HttpContext.Request.Headers["Authorization"];
             //Console.WriteLine(token);
-            var result = await _customerRepon.GetBySdt(sdt);
+            var result = await _mediator.Send(new GetCustomerbyPhoneNumberQuery(sdt));
             if (result == null) { return Ok(null); }
             return Ok(result);
         }
@@ -88,9 +87,9 @@ namespace WebApplication1.Controllers
         {
             var result = await _mediator.Send(new CreateCustomerCommand(model));
             //var result = await _customerRepon.Create( model);
-            if (result == 1) { return BadRequest("Email đã được sử dụng"); };
-            if (result == 2) { return BadRequest("Số điện thoại này đã được sử dụng"); };
-            if (result == 4)
+            if (result == 2) { return BadRequest("Email đã được sử dụng"); };
+            if (result == 3) { return BadRequest("Số điện thoại này đã được sử dụng"); };
+            if (result == 0)
             {
                 return BadRequest("Đã sảy ra rỗi, vui lòng thử lại sau");                
             };
@@ -111,25 +110,25 @@ namespace WebApplication1.Controllers
         [Authorize]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCustomer model)
         {
-            var result = await _customerRepon.Update(id,model);
-            if (result == 1) { return BadRequest("Email đã được sử dụng"); };
-            if (result == 2) { return BadRequest("Số điện thoại này đã được sử dụng"); };
-            if (result == 2)
+            var result = await _mediator.Send(new UpdateCustomerCommand(id, model));
+            if (result == 2) { return BadRequest("Email đã được sử dụng"); };
+            if (result == 3) { return BadRequest("Số điện thoại này đã được sử dụng"); };
+            if (result == 0)
             {
                 return BadRequest("Đã sảy ra rỗi, vui lòng thử lại sau");
             };
             return Ok("Sửa thành công");
         }
         [HttpDelete]
-        [Route("Delete")]
+        [Route("Delete/{id}")]
         [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             Console.WriteLine("vào rồi nè");
-            var result = await _customerRepon.Delete(id);
-            if (result == 1) { return BadRequest("không tìm thấy Customer");
+            var result = await _mediator.Send(new DeleteCustomerCommand(id));
+            if (result == 2) { return BadRequest("không tìm thấy Customer");
             }
-            if (result == 3)
+            if (result == 0)
             {
                 return BadRequest("Lỗi hệ thống, vui lòng thử lại sau");
             }

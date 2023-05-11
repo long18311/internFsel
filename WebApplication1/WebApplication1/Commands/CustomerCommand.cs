@@ -9,6 +9,6 @@ namespace WebApplication1.Commands
         public record CreateCustomerCommand(CreateCustomer model) : IRequest<int>;
         public record CreatetCustomerCommand(CreateCustomer model) : IRequest<Customer>;        
         public record UpdateCustomerCommand(Guid Id, UpdateCustomer model) : IRequest<int>;
-        public record DeteteCustomerCommand(Guid Id) : IRequest<int>;
+        public record DeleteCustomerCommand(Guid Id) : IRequest<int>;
     }
 }

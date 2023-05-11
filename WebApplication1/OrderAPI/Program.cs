@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,9 +21,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DDBC>(options => { options.UseSqlServer(@"Data Source=LONG\SQLEXPRESS;Initial Catalog=OrderData; Integrated Security = True;TrustServerCertificate=True "); });
-builder.Services.AddControllers().AddJsonOptions(options => {
+/*builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-});
+});*/
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
@@ -38,7 +39,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 
 builder.Services.AddTransient<IOrderRepon, OrderRepon>();
+builder.Services.AddMediatR(typeof(OrderRepon).Assembly);
 builder.Services.AddTransient<IOrderDetailRepon, OrderDetailRepon>();
+builder.Services.AddMediatR(typeof(OrderDetailRepon).Assembly);
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<AuthorizationMessageHandler>();
 builder.Services.AddRefitClient<IApiCustomerService>()

@@ -13,7 +13,7 @@ namespace WebApplication1.Handlers
         }
         public Task<Customer> Handle(GetCustomerbyIdQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _customerRepon.GetById(request.id);
         }
     }
 }

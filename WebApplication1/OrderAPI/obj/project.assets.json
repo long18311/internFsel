@@ -110,10 +110,10 @@
           }
         }
       },
-      "MediatR.Extensions.Microsoft.DependencyInjectionFixed/5.1.2": {
+      "MediatR.Extensions.Microsoft.DependencyInjection/9.0.0": {
         "type": "package",
         "dependencies": {
-          "MediatR": "5.1.0",
+          "MediatR": "9.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
         },
         "compile": {
@@ -3194,16 +3194,17 @@
         "mediatr.nuspec"
       ]
     },
-    "MediatR.Extensions.Microsoft.DependencyInjectionFixed/5.1.2": {
-      "sha512": "93OmjCwew097+bxLSA9xJavQ0AYhHDmZDeh2Q09rxCuTeO9SKc/gtQledr0s42vHfl5yFgTRaffyMYG+989c2w==",
+    "MediatR.Extensions.Microsoft.DependencyInjection/9.0.0": {
+      "sha512": "msreY4ogiPdIRWiCQVHQDytIQpsZCLWsixWPZ+Xs86KZrvtuiV8BDHbIT0kBmogynVYWNpspb3caw+86YU8L6w==",
       "type": "package",
-      "path": "mediatr.extensions.microsoft.dependencyinjectionfixed/5.1.2",
+      "path": "mediatr.extensions.microsoft.dependencyinjection/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "gradient_128x128.png",
         "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll",
-        "mediatr.extensions.microsoft.dependencyinjectionfixed.5.1.2.nupkg.sha512",
-        "mediatr.extensions.microsoft.dependencyinjectionfixed.nuspec"
+        "mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
+        "mediatr.extensions.microsoft.dependencyinjection.nuspec"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.9": {
@@ -9089,7 +9090,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "MediatR >= 9.0.0",
-      "MediatR.Extensions.Microsoft.DependencyInjectionFixed >= 5.1.2",
+      "MediatR.Extensions.Microsoft.DependencyInjection >= 9.0.0",
       "Microsoft.AspNet.WebApi.Client >= 5.2.9",
       "Microsoft.AspNetCore.Authentication.Abstractions >= 2.2.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.16",
@@ -9152,9 +9153,9 @@
             "target": "Package",
             "version": "[9.0.0, )"
           },
-          "MediatR.Extensions.Microsoft.DependencyInjectionFixed": {
+          "MediatR.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
-            "version": "[5.1.2, )"
+            "version": "[9.0.0, )"
           },
           "Microsoft.AspNet.WebApi.Client": {
             "target": "Package",
