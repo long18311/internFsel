@@ -1,9 +1,10 @@
-﻿ using WebApplication1.ViewModel.User;
+﻿using WebApplication1.Models;
+using WebApplication1.ViewModel.User;
 
 namespace WebApplication1.repositories.IRepon
 {
     public interface IUserRepon
     {
-        Task<string> Login(Loginmodel loginmodel);
+        Task<User> GetUserbyLoginmodel(Loginmodel loginmodel);
     }
 }

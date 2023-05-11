@@ -6,11 +6,14 @@ namespace OrderAPI.repositories.IRepon
 {
     public interface IOrderRepon
     {
-        Task<int> Create(CreateOrder model);
-        Task<int> Update(UpdateOrder model);
-        Task<int> Delete(Guid id);
+        Task<int> Create(Order order, List<OrderDetail> orderDetails);
+        Task<int> Update(Order order);
+        Task<int> Delete(Order order);
+        Task<List<OrderDetail>> GetOrderDetailbyId(Guid Id);
+        Task<Guid> GetCustomerIdBySdt(string PhoneNumber);
+        Task<Guid> GetCustomerIdByNewCustomer(CreateCustomer createCustomer);
         Task<Order> GetOrderById(Guid id);
         Task<List<Order>> getAll();
-        Task<List<Order>> getlst(string phoneNumber);
+        Task<List<Order>> getlistbyCustomerid(Guid id);
     }
 }

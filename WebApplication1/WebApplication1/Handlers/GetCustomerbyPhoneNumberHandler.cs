@@ -14,7 +14,7 @@ namespace WebApplication1.Handlers
         }
         public Task<Customer> Handle(GetCustomerbyPhoneNumberQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _customerRepon.GetBySdt(request.PhoneNumber);
         }
     }
 }

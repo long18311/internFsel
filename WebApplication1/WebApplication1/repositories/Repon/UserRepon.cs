@@ -16,24 +16,11 @@ namespace WebApplication1.repositories.Repon
         public UserRepon(DDBC dDBC) {
             this.dDBC = dDBC;
         }
-        public async Task<string> Login(Loginmodel loginmodel)
+        public async Task<User> GetUserbyLoginmodel(Loginmodel loginmodel)
         {
             var user = await dDBC.users.FirstOrDefaultAsync(p => p.Username == loginmodel.Username && p.Password == loginmodel.Password);
-            if (user == null) return null;
-            var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, loginmodel.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-            var authenkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"));
-            var token = new JwtSecurityToken(
-            issuer: "https://localhost:7283",
-            audience: "InternFsel",
-            expires: DateTime.Now.AddMinutes(30),
-            claims: authClaims,
-            signingCredentials: new SigningCredentials(authenkey,SecurityAlgorithms.HmacSha512Signature)
-            );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            
+            return user;
         }
     }
 }
