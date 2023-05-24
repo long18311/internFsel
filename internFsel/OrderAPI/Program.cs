@@ -27,8 +27,8 @@ builder.Services.AddDbContext<DDBC>(options => { options.UseSqlServer(@"Data Sou
 builder.Services.AddAuthentication("Bearer")
     .AddIdentityServerAuthentication("Bearer", options =>
     {
-        options.Authority = "https://localhost:7101";
-        options.ApiName = "CoffeeAPI";
+        options.Authority = "https://localhost:7120";
+        options.ApiName = "api";
     });
 /*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.RequireHttpsMetadata = false;
