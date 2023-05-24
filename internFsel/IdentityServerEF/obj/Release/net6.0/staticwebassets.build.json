@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "nX/gvGGYe8wEnXRDVZyuyT87NGOXqqerySMPapo5hrU=",
+  "Source": "IdentityServerEF",
+  "BasePath": "_content/IdentityServerEF",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
