@@ -17,7 +17,7 @@ builder.Services.AddIdentityServer()
 {
     options.ConfigureDbContext = b => b.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
     options.EnableTokenCleanup = true;
-})/*.AddDeveloperSigningCredential()*/;
+}).AddDeveloperSigningCredential();
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");

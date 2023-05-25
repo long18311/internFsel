@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ServerIDS4;
+using ServerIDS4.Controllers;
 using ServerIDS4.Data;
+using ServerIDS4.repositories.IRepon;
+using ServerIDS4.repositories.Repon;
+
 var seed = args.Contains("/seed");
 if (seed)
 {
@@ -15,12 +19,20 @@ if (seed)
 {
     SeedData.EnsureSeedData(defaultConnString);
 }
+builder.Services.AddAuthentication("Bearer")
+    .AddIdentityServerAuthentication("Bearer", options =>
+    {
+        options.Authority = "https://localhost:5443";
+        options.ApiName = "api";
+    });
 builder.Services.AddDbContext<AspNetIdentityDbContext>(options =>
     options.UseSqlServer(defaultConnString,
-        b => b.MigrationsAssembly(assembly)));
+       b => b.MigrationsAssembly(assembly)));
 
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddTransient<IAccUserRepon, AccUserRepon>();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AspNetIdentityDbContext>();
+    .AddEntityFrameworkStores<AspNetIdentityDbContext>().AddDefaultTokenProviders();
 builder.Services.AddIdentityServer().AddAspNetIdentity<IdentityUser>()
     .AddConfigurationStore(options =>
     {
@@ -30,16 +42,20 @@ builder.Services.AddIdentityServer().AddAspNetIdentity<IdentityUser>()
         options.ConfigureDbContext = b =>
         b.UseSqlServer(defaultConnString, opt => opt.MigrationsAssembly(assembly));
     })
-    /*.AddDeveloperSigningCredential()*/;
+    .AddDeveloperSigningCredential();
+
+builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
-//app.UseAuthorization();
-/*app.UseEndpoints(endpoints =>
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseEndpoints(endpoints =>
 {
     endpoints.MapDefaultControllerRoute();
-});*/
+});
 app.MapGet("/", () => "Hello World!");
 
 app.Run();

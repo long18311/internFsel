@@ -44,9 +44,16 @@ namespace ServerIDS4
                 // interactive client using code flow + pkce
                 new Client
                 {
+                    ClientId = "newclient",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,                    
+                    AllowedScopes = { "openid", "profile", "api.read","api.write" },                    
+                },
+                new Client
+                {
                     ClientId = "interactive",
                     ClientSecrets = { new Secret("secret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     RedirectUris = { "https://localhost:7292/api/Order/GetAll" },
                     FrontChannelLogoutUri = "https://localhost:7292/api/Order/GetAll",
                     PostLogoutRedirectUris = { "https://localhost:7292/api/Order/GetAll" },
