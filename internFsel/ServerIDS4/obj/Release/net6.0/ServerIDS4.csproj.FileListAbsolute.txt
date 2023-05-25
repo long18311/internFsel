@@ -84,3 +84,7 @@ C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\Microsoft.AspNetCore.Comp
 C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\Microsoft.AspNetCore.Components.Authorization.dll
 C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\Microsoft.AspNetCore.Metadata.dll
 C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\IdentityModel.AspNetCore.OAuth2Introspection.dll
+C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\IdentityServer4.AccessTokenValidation.dll
+C:\vuithoi\C#\internFsel\ServerIDS4\bin\Release\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

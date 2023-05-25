@@ -27,10 +27,10 @@ builder.Services.AddDbContext<DDBC>(options => { options.UseSqlServer(@"Data Sou
 builder.Services.AddAuthentication("Bearer")
     .AddIdentityServerAuthentication("Bearer", options =>
     {
-        options.Authority = "https://localhost:7120";
+        options.Authority = "https://localhost:5443";
         options.ApiName = "api";
     });
-/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+/*builder.Services.AddAuthentication( .AuthenticationScheme).AddJwtBearer(options => {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters()
@@ -53,7 +53,7 @@ builder.Services.AddTransient<AuthorizationMessageHandler>();
 builder.Services.AddRefitClient<IApiCustomerService>()
     .ConfigureHttpClient(x => x.BaseAddress = new Uri("https://localhost:7186/gateway")).AddHttpMessageHandler<AuthorizationMessageHandler>();
 
-//builder.Services.AddRefitClient<IApiCustomerService>().ConfigureHttpClient(x => x.BaseAddress = new Uri("https://localhost:7186/gateway")).AddHttpMessageHandler<AuthorizationMessageHandler>();
+builder.Services.AddRefitClient<IApiCustomerService>().ConfigureHttpClient(x => x.BaseAddress = new Uri("https://localhost:7186/gateway")).AddHttpMessageHandler<AuthorizationMessageHandler>();
 
 var app = builder.Build();
 

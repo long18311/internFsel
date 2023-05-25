@@ -12,7 +12,7 @@ using ServerIDS4.Data;
 namespace ServerIDS4.Migrations.AspNetIdentityDb
 {
     [DbContext(typeof(AspNetIdentityDbContext))]
-    [Migration("20230524102634_InitialAspNetIdentityMigration")]
+    [Migration("20230525044504_InitialAspNetIdentityMigration")]
     partial class InitialAspNetIdentityMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
