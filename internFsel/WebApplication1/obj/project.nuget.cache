@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "3px+tMtLN0wPqFKVKYLd2P6DY6wrx3jlxEad3zaeqarInmRw/4oxRvCIBO0c7/hp2FS0q8RLXycScvabOaGaQA==",
+  "dgSpecHash": "De7ca6R2UKKHzHOwbH6uxuBssS5gNQowvJDmkENyBNuwGd7PGWThEWTpGTygI1JiW2YRIljtra+y8/uKDsZlTA==",
   "success": true,
   "projectFilePath": "C:\\vuithoi\\C#\\internFsel\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vanlo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\vanlo\\.nuget\\packages\\identitymodel\\4.0.0\\identitymodel.4.0.0.nupkg.sha512",
+    "C:\\Users\\vanlo\\.nuget\\packages\\identitymodel.aspnetcore.oauth2introspection\\4.0.1\\identitymodel.aspnetcore.oauth2introspection.4.0.1.nupkg.sha512",
+    "C:\\Users\\vanlo\\.nuget\\packages\\identityserver4.accesstokenvalidation\\3.0.1\\identityserver4.accesstokenvalidation.3.0.1.nupkg.sha512",
     "C:\\Users\\vanlo\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",
     "C:\\Users\\vanlo\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
     "C:\\Users\\vanlo\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

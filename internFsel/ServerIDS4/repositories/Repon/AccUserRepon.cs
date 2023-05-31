@@ -12,7 +12,7 @@ namespace ServerIDS4.repositories.Repon
     {
         private readonly AspNetIdentityDbContext _aspNetIdentityDbContext;
         private readonly UserManager<IdentityUser> _userManager;
-        public AccUserRepon(AspNetIdentityDbContext context, UserManager<IdentityUser> userManager)
+         public AccUserRepon(AspNetIdentityDbContext context, UserManager<IdentityUser> userManager)
         {
             _aspNetIdentityDbContext = context;
             _userManager = userManager;
@@ -36,7 +36,7 @@ namespace ServerIDS4.repositories.Repon
                             new Claim(JwtClaimTypes.GivenName, createAccUser.UserName),
                             new Claim(JwtClaimTypes.FamilyName, createAccUser.LastName),
                             new Claim(JwtClaimTypes.WebSite, "http://"+createAccUser.UserName + createAccUser.LastName+".com"),
-                            new Claim("location", "somewhere")
+                            /*new Claim("location", "somewhere")*/
                             }
                         ).Result;
                 }
