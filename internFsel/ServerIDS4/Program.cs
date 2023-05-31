@@ -19,12 +19,12 @@ if (seed)
 {
     SeedData.EnsureSeedData(defaultConnString);
 }
-builder.Services.AddAuthentication("Bearer")
+/*builder.Services.AddAuthentication("Bearer")
     .AddIdentityServerAuthentication("Bearer", options =>
     {
         options.Authority = "https://localhost:5443";
         options.ApiName = "api";
-    });
+    });*/
 builder.Services.AddDbContext<AspNetIdentityDbContext>(options =>
     options.UseSqlServer(defaultConnString,
        b => b.MigrationsAssembly(assembly)));
@@ -50,7 +50,7 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
-app.UseAuthentication();
+/*app.UseAuthentication();*/
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {

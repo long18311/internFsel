@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Commands;
 using WebApplication1.Queries;
@@ -24,7 +25,7 @@ namespace WebApplication1.Controllers
         }
         [HttpGet]
         [Route("GetAll")]
-        [Authorize]
+        [Authorize(Policy = "view_customer_Only")]
         public async Task<IActionResult> Get(int page, int pagesize, [FromQuery] FilterCustomer filterCustomer)
         {
             var lstCustomer = await _mediator.Send(new GetCustomerListQuery(filterCustomer));

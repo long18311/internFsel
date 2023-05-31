@@ -277,3 +277,6 @@ C:\vuithoi\C#\internFsel\WebApplication1\obj\Release\net6.0\refint\WebApplicatio
 C:\vuithoi\C#\internFsel\WebApplication1\obj\Release\net6.0\WebApplication1.pdb
 C:\vuithoi\C#\internFsel\WebApplication1\obj\Release\net6.0\WebApplication1.genruntimeconfig.cache
 C:\vuithoi\C#\internFsel\WebApplication1\obj\Release\net6.0\ref\WebApplication1.dll
+C:\vuithoi\C#\internFsel\WebApplication1\bin\Release\net6.0\IdentityModel.dll
+C:\vuithoi\C#\internFsel\WebApplication1\bin\Release\net6.0\IdentityModel.AspNetCore.OAuth2Introspection.dll
+C:\vuithoi\C#\internFsel\WebApplication1\bin\Release\net6.0\IdentityServer4.AccessTokenValidation.dll

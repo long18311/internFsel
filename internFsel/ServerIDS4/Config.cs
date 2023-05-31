@@ -25,7 +25,7 @@ namespace ServerIDS4
                 {
                     Scopes = new List<string> { "api.read", "api.write" },
                     ApiSecrets = new List<Secret> { new Secret("secret".Sha256()) },
-                    UserClaims = new List<string> { "role" }
+                    UserClaims = new List<string> { "role" },
                 }
             };
 

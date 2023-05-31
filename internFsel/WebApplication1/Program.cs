@@ -1,8 +1,10 @@
+using IdentityModel;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 using WebApplication1.Models;
 using WebApplication1.repositories.IRepon;
@@ -21,7 +23,19 @@ builder.Services.AddDbContext<DDBC>( options => { options.UseSqlServer(@"Server=
     );
 
 //Integrated Security = True
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("view_customer_Only", policy => {
+        policy.RequireClaim("role");
+        });
+}).AddAuthentication("Bearer")
+    .AddIdentityServerAuthentication("Bearer", options =>
+    {
+        options.Authority = "https://localhost:5443/connect/authorize";
+        options.ApiName = "api";
+    });
+
+/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters() 
@@ -32,7 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidIssuer = "https://localhost:7283",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("thisIsTheSecurityKey12345678"))
 };
-    });
+    });*/
 //Where registering services
 builder.Services.AddCors(policy => {
     policy.AddPolicy("OpenCorsPolicy", opt => opt.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
