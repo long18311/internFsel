@@ -12,7 +12,9 @@ namespace ServerIDS4.ViewModel
         public string Email { get; set; }
         [Required(ErrorMessage = "Không được bỏ trống Password")]
         public string Password { get; set; } 
-        /*[Required]
-        public string ConfirmPassword { get; set; } = null!;*/
+        public bool view_customer { get; set; }
+        public bool create_customer { get; set; }
+        public bool update_customer { get; set; }
+        public bool delete_customer { get; set; }
     }
 }

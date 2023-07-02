@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+    <title>🗨️ WebChat</title>
+  </head>
+  <body>
+    <div id="toast" .class="col-3"></div>
+    <div id="myModal" class="myModal">
+      <div class="myModal-content">
+        <div class="myModal-header">
+          <span class="d-flex close closebtn">&times;</span>
+          <h2 class="h2">Modal Header</h2>
+        </div>
+        <div class="myModal-body">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Username</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="UsernameInput"
+              placeholder="nắng"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Password</label
+            >
+            <input type="password" class="form-control" id="PasswordInput" />
+          </div>
+        </div>
+        <div class="myModal-footer">
+          <h3 class="h3 login mx-auto">Đăng Nhập</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="containe">
+      <div class="dangxuat"><i class="fas fa-times" id="dangxuat-i"></i></div>
+      <div class="header">🗨️ WebChat</div>
+      <div class="row">
+        <div class="col-md-2 col-sm-3">
+          <div class="user-section" id="userSection">
+            <div class="userbox">long</div>
+          </div>
+        </div>
+        <div class="col-md-8 col-sm-7">
+          <div class="message-section" id="messageSection">
+            <!-- this div display on right side -->
+            <!-- <div class="msg-box received">
+                 hi ddd dfdsfd ddddddddddddddddddddddddddddddddddddddddddd1
+             </div> -->
+          </div>
+
+          <div class="input-section">
+            <input type="text" class="input" id="txtMessage" />
+            <button class="btn" id="btnSend">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./node_modules/@microsoft/signalr/dist/browser/signalr.js"></script>
+  <script src="./node_modules/jwt-decode/build/jwt-decode.js"></script>
+  <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.js"
+    integrity="sha512-RjvSEaeDqPCfUVQ9kna2/2OqHz/7F04IOl1/66LmQjB/lOeAzwq7LrbTzDbz5cJzlPNJ5qteNtHR56XaJSTNWw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script> -->
+  <script src="./libs/axios.min.js"></script>
+  <script src="./chat.js"></script>
+  <script></script>
+</html>

@@ -17,12 +17,16 @@ namespace ServerIDS4.Controllers
             _accUserRepon = accUserRepon;
         }
         /*{
-    "username": "long",
-    "lastname": "nguyen",
-    "email": "vanlongnguyen2405@gmail.com",
-    "password": "Nanghong@123"
-    }*/
-        
+  "userName": "nhan",
+  "lastName": "nguyen",
+  "email": "longnguyen@example.com",
+  "password": "Pass@123",
+  "view_customer": true,
+  "create_customer": true,
+  "update_customer": false,
+  "delete_customer": true
+}*/
+
         [HttpPost]
         /*[Authorize]*/
         public async Task<IActionResult> CreateAccUser([FromBody] CreateAccUser createAccUser) {

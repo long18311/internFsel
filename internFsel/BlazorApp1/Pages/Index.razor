@@ -1,0 +1,75 @@
+﻿@page "/"
+@using BlazorApp1.Models;
+@using Microsoft.AspNetCore.SignalR.Client;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+<div>
+    SignalR Satus : @IsConnected
+    Satus Updated On : @updatedOn
+</div>
+<h3>
+    Incoming Messages
+</h3>
+@foreach(var str in stringLst)
+{
+    <span>@str</span>
+}
+<br />
+<h3>Incoming Employee</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name.(C)</th>
+            <th>Address. (F)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var emp in empLst)
+        {
+            <tr>
+                <td>@emp.Id</td>
+                <td>@emp.Name</td>
+                <td>@emp.Address</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code{
+    private HubConnection? hubConnection;
+    public List<Employee> empLst = new List<Employee>();
+    public List<string> stringLst = new List<string>();
+    public string updatedOn;
+
+    protected override async Task OnInitializedAsync()
+    {
+        empLst = new List<Employee>();
+
+        hubConnection = new HubConnectionBuilder()
+            //.WithUrl(NavigationManager.ToAbsoluteUri("/signalhub")
+            .WithUrl("https://localhost:7277/signalHub")
+            //.WithUrl("http")
+            .Build();
+        hubConnection.On<Employee>("ReceiveEmployee", (incomingEmloyee) =>
+        {
+            empLst.Add(incomingEmloyee);
+            updatedOn = DateTime.Now.ToLongTimeString();
+            StateHasChanged();
+        });
+        hubConnection.On<string>("ReceiveMessage", (incomingMessage) =>
+        {
+            stringLst.Add(incomingMessage);
+            updatedOn = DateTime.Now.ToLongTimeString();
+            StateHasChanged();
+        });
+        await hubConnection.StartAsync();
+    }
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+}
