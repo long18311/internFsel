@@ -10,12 +10,13 @@ namespace ServerIDS4.repositories.Repon
 {
     public  class AccUserRepon : IAccUserRepon
     {
-        private readonly AspNetIdentityDbContext _aspNetIdentityDbContext;
         private readonly UserManager<IdentityUser> _userManager;
-         public AccUserRepon(AspNetIdentityDbContext context, UserManager<IdentityUser> userManager)
+        
+        public AccUserRepon( UserManager<IdentityUser> userManager)
         {
-            _aspNetIdentityDbContext = context;
+            
             _userManager = userManager;
+            
         }
         public async Task<IdentityResult> AccUserCreate(CreateAccUser createAccUser)
         {
@@ -25,6 +26,23 @@ namespace ServerIDS4.repositories.Repon
                 Email = createAccUser.Email,
                 UserName = createAccUser.UserName
             };
+            List<string> roles = new List<string>();
+            if (createAccUser.view_customer)
+            {
+                roles.Add("view_customer");
+            }
+            if (createAccUser.create_customer)
+            {
+                roles.Add("create_customer");
+            }
+            if (createAccUser.update_customer)
+            {
+                roles.Add("update_customer");
+            }
+            if (createAccUser.delete_customer)
+            {
+                roles.Add("delete_customer");
+            }
             IdentityResult result = null;
             try {
                 result = await _userManager.CreateAsync(user, createAccUser.Password);
@@ -36,9 +54,13 @@ namespace ServerIDS4.repositories.Repon
                             new Claim(JwtClaimTypes.GivenName, createAccUser.UserName),
                             new Claim(JwtClaimTypes.FamilyName, createAccUser.LastName),
                             new Claim(JwtClaimTypes.WebSite, "http://"+createAccUser.UserName + createAccUser.LastName+".com"),
-                            /*new Claim("location", "somewhere")*/
+                            new Claim("location", "somewhere")
                             }
                         ).Result;
+                    if (result.Succeeded && roles.Count>0)
+                    {
+                        result = _userManager.AddToRolesAsync(user, roles).Result;
+                    }
                 }
             }
             catch (Exception ex) {

@@ -63,7 +63,7 @@ namespace WebApplication1.Controllers
         }
         [HttpGet]
         [Route("GetById")]
-        [Authorize]
+        [Authorize(Policy = "view_customer_Only")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _mediator.Send(new GetCustomerbyIdQuery(id));
@@ -72,7 +72,7 @@ namespace WebApplication1.Controllers
         }
         [HttpGet]
         [Route("GetBySdt")]
-        [Authorize]
+        [Authorize(Policy = "view_customer_Only")]
         public async Task<IActionResult> GetBySdt(string sdt)
         {
             //string token = HttpContext.Request.Cookies["access_token"] ?? HttpContext.Request.Headers["Authorization"];
@@ -83,7 +83,7 @@ namespace WebApplication1.Controllers
         }
         [HttpPost]
         [Route("Create")]
-        [Authorize]
+        [Authorize(Policy = "create_customer_Only")]
         public async Task<IActionResult> Create([FromBody] CreateCustomer model)
         {
             var result = await _mediator.Send(new CreateCustomerCommand(model));
@@ -98,6 +98,7 @@ namespace WebApplication1.Controllers
         }
         [HttpPost]
         [Route("Createt")]
+        [Authorize(Policy = "create_customer_Only")]
         public async Task<IActionResult> Createt([FromBody] CreateCustomer model)
         {
             
@@ -108,7 +109,7 @@ namespace WebApplication1.Controllers
 
         [HttpPut]
         [Route("Update")]
-        [Authorize]
+        [Authorize(Policy = "update_customer_Only")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCustomer model)
         {
             var result = await _mediator.Send(new UpdateCustomerCommand(id, model));
@@ -122,7 +123,7 @@ namespace WebApplication1.Controllers
         }
         [HttpDelete]
         [Route("Delete/{id}")]
-        [Authorize]
+        [Authorize(Policy = "delete_customer_Only")]
         public async Task<IActionResult> Delete(Guid id)
         {
             Console.WriteLine("vào rồi nè");

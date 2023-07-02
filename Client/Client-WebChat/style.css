@@ -1,0 +1,310 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(135, 1, 145);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(162, 2, 170);
+}
+
+.containe {
+  width: 100%;
+  height: 100vh;
+  background: rgb(2, 253, 245);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 253, 245, 1) 19%,
+    rgba(252, 134, 255, 1) 100%
+  );
+  font-family: "Poppins", sans-serif;
+}
+
+.header {
+  font-size: 28px;
+  text-align: center;
+  padding: 15px 0px;
+}
+
+.message-section {
+  height: 400px;
+  width: 95%;
+  margin: auto;
+  border: 1px solid;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.msg-box {
+  padding: 10px;
+  width: 35%;
+  border: 1px solid black;
+  font-size: 20px;
+  margin: 20px 15px;
+  border-radius: 5px;
+  clear: both;
+  word-break: break-all;
+  box-shadow: 5px 5px #8b8b8b;
+}
+.userbox {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid black;
+  font-size: 20px;
+  margin: 20px 15px;
+  border-radius: 5px;
+  clear: both;
+  word-break: break-all;
+}
+
+.received {
+  float: left;
+  background-color: rgb(255, 252, 214);
+}
+
+.send {
+  float: right;
+  background-color: rgb(214, 255, 214);
+}
+
+/* input section */
+.input-section {
+  border: 1px solid black;
+  height: 60px;
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 90%;
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #969696;
+  border-radius: 10px;
+  margin: 0px 5px;
+}
+
+.input:focus {
+  border: 2px solid #757575;
+  outline: none;
+}
+
+.btn {
+  font-size: 20px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgb(98, 0, 98);
+  color: white;
+  margin: 0px 5px;
+}
+
+.btn:hover {
+  background: rgb(69, 0, 69);
+}
+.myModal {
+  display: block;
+  /*display: none; Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.myModal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.myModal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.myModal-body {
+  padding: 2px 16px;
+}
+
+/* .modald-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  float: right;
+  color: white;
+} */
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.login {
+  color: #0d6efd !important;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.login:hover,
+.login:focus {
+  color: #000 !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#toast {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  z-index: 999999;
+}
+
+.toast {
+  display: flex !important;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 20px 0;
+  width: 100% !important;
+  /* min-width: 400px;
+  max-width: 450px; */
+  border-left: 4px solid #2f86eb !important;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + 32px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast--info {
+  border-color: #2f86eb;
+}
+
+.toast--info .toast__icon {
+  color: #2f86eb;
+}
+
+.toast + .toast {
+  margin-top: 24px;
+}
+
+.toast__icon {
+  font-size: 24px;
+}
+
+.toast__icon,
+.toast__close {
+  padding: 0 16px;
+}
+
+.toast__body {
+  flex-grow: 1;
+}
+
+.toast__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.toast__msg {
+  font-size: 14px;
+  color: #888;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.toast__close {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.dangxuat {
+  margin: 10px;
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.dangxuat:hover,
+.dangxuat:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}

@@ -1,10 +1,16 @@
+using IdentityModel;
+using IdentityServer4.AspNetIdentity;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using ServerIDS4;
 using ServerIDS4.Controllers;
 using ServerIDS4.Data;
 using ServerIDS4.repositories.IRepon;
 using ServerIDS4.repositories.Repon;
+using System.IdentityModel.Tokens.Jwt;
 
 var seed = args.Contains("/seed");
 if (seed)

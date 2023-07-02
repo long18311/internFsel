@@ -1,4 +1,8 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityModel;
+using IdentityServer4;
+using IdentityServer4.Models;
+using IdentityServer4.Test;
+using System.Security.Claims;
 
 namespace ServerIDS4
 {
@@ -9,15 +13,35 @@ namespace ServerIDS4
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource
+                new IdentityResource()
                 {
                     Name = "role",
                     UserClaims = new List<string> { "role" }
                 }
-            };
 
+            };
+        public static List<TestUser> TestUsers =>
+        new List<TestUser>
+        {
+            new TestUser
+            {
+                SubjectId = "123",
+                Username = "angella",
+                Password = "Pass123$",
+                Claims =
+                {
+                    new Claim(JwtClaimTypes.Name, "Angella Freeman"),
+                    new Claim(JwtClaimTypes.GivenName, "Angella"),
+                    new Claim(JwtClaimTypes.FamilyName, "Freeman"),
+                    new Claim(JwtClaimTypes.WebSite, "http://angellafreeman.com"),
+                    new Claim("location", "somewhere"),
+                    new Claim("role","nang"),
+                    new Claim("role","vui"),
+                }
+            }
+        };
         public static IEnumerable<ApiScope> ApiScopes =>
-            new[] { new ApiScope("api.read"), new ApiScope("api.write"), };
+            new[] { new ApiScope(name: "api.read", displayName: "Read your data.", userClaims: new string[] { "scope.claim" }), new ApiScope("api.write") };
         public static IEnumerable<ApiResource> ApiResources =>
             new[]
             {
@@ -37,6 +61,8 @@ namespace ServerIDS4
                 {
                     ClientId = "client",
                     ClientName = "Client Credentials Client",
+                    AlwaysIncludeUserClaimsInIdToken=true,
+                    AlwaysSendClientClaims=true,
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedScopes = { "api.read", "api.write" }
@@ -46,8 +72,10 @@ namespace ServerIDS4
                 {
                     ClientId = "newclient",
                     ClientSecrets = { new Secret("secret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,                    
-                    AllowedScopes = { "openid", "profile", "api.read","api.write" },                    
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    AlwaysIncludeUserClaimsInIdToken=true,
+                    AlwaysSendClientClaims=true,
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile, "api.read","api.write", "role" },                    
                 },
                 new Client
                 {

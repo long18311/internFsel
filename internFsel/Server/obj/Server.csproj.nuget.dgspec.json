@@ -44,13 +44,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "IdentityServer4": {
+            "Microsoft.AspNetCore.SignalR": {
               "target": "Package",
-              "version": "[4.1.2, )"
+              "version": "[1.1.0, )"
             },
-            "Microsoft.AspNetCore.Identity": {
+            "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[6.2.3, )"
             }
           },
           "imports": [

@@ -63,6 +63,17 @@ namespace ServerIDS4
         {
            
             var roleMgr = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+            var view_customer = roleMgr.FindByNameAsync("view_customer").Result;
+            if (view_customer == null)
+            {
+                view_customer = new IdentityRole() { Name = "view_customer" };
+                var result = roleMgr.CreateAsync(view_customer).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+                /*result = roleMgr.AddClaimAsync(view_customer, new Claim("view_customer", "true")).Result;*/
+            }
             var create_customer = roleMgr.FindByNameAsync("create_customer").Result;
             if (create_customer == null)
             {
@@ -72,7 +83,7 @@ namespace ServerIDS4
                 {
                     throw new Exception(result.Errors.First().Description);
                 }
-                result = roleMgr.AddClaimAsync(create_customer, new Claim("create_customer", "true")).Result;
+                /*result = roleMgr.AddClaimAsync(create_customer, new Claim("create_customer", "true")).Result;*/
             }
             var update_customer = roleMgr.FindByNameAsync("update_customer").Result;
             if (update_customer == null)
@@ -88,17 +99,7 @@ namespace ServerIDS4
                 }
                 result = roleMgr.AddClaimAsync(update_customer, new Claim("update_customer", "true")).Result;
             }
-            var view_customer = roleMgr.FindByNameAsync("view_customer").Result;
-            if (view_customer == null)
-            {
-                view_customer = new IdentityRole() { Name = "view_customer" };
-                var result = roleMgr.CreateAsync(view_customer).Result;
-                if (!result.Succeeded)
-                {
-                    throw new Exception(result.Errors.First().Description);
-                }
-                result = roleMgr.AddClaimAsync(view_customer, new Claim("view_customer", "true")).Result;
-            }
+            
             var delete_customer = roleMgr.FindByNameAsync("delete_customer").Result;
             if (delete_customer == null)
             {
@@ -108,7 +109,7 @@ namespace ServerIDS4
                 {
                     throw new Exception(result.Errors.First().Description);
                 }
-                result = roleMgr.AddClaimAsync(delete_customer, new Claim("delete_customer", "true")).Result;
+                /*result = roleMgr.AddClaimAsync(delete_customer, new Claim("delete_customer", "true")).Result;*/
             }
         }
         private static async void EnsureUsers(IServiceScope scope)
@@ -137,10 +138,12 @@ namespace ServerIDS4
                             new Claim(JwtClaimTypes.GivenName, "Angella"),
                             new Claim(JwtClaimTypes.FamilyName, "Freeman"),
                             new Claim(JwtClaimTypes.WebSite, "http://angellafreeman.com"),
-                            new Claim("location", "somewhere")
+                            new Claim("location", "somewhere"),
+                            new Claim("role","vui"),
+                            new Claim("create_customer","true"),
                         }
                     ).Result;
-                result = userMgr.AddToRolesAsync(angella, new List<string> { "create_customer", "view_customer", "delete_customer", "update_customer" }).Result;
+                /*result = userMgr.AddToRolesAsync(angella, new List<string> { "create_customer", "view_customer", "delete_customer", "update_customer" }).Result;*/
                 if (!result.Succeeded)
                 {
                     throw new Exception(result.Errors.First().Description);

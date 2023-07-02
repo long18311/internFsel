@@ -26,19 +26,29 @@ builder.Services.AddDbContext<DDBC>( options => { options.UseSqlServer(@"Server=
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("view_customer_Only", policy => {
-        policy.RequireClaim("role");
-        });
+        policy.RequireClaim("role", "view_customer");
+        policy.RequireClaim("location");
+    });
+    options.AddPolicy("create_customer_Only", policy => {
+        policy.RequireClaim("role", "create_customer");
+    });
+    options.AddPolicy("update_customer_Only", policy => {
+        policy.RequireClaim("role", "update_customer");
+    });
+    options.AddPolicy("delete_customer_Only", policy => {
+        policy.RequireClaim("role", "delete_customer");
+    });
 }).AddAuthentication("Bearer")
     .AddIdentityServerAuthentication("Bearer", options =>
     {
-        options.Authority = "https://localhost:5443/connect/authorize";
+        options.Authority = "https://localhost:5443";
         options.ApiName = "api";
     });
 
 /*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters() 
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
         ValidateAudience = true,
